@@ -1,0 +1,40 @@
+import * as cdk from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import { Construct } from 'constructs';
+
+class AcmeProdDriftStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    // Create the security group
+    const securityGroup = new ec2.CfnSecurityGroup(this, 'AcmeProdDriftSecurityGroup', {
+      groupName: 'acme-prod-drift',
+      groupDescription: 'sandbox drifted resources',
+      vpcId: 'vpc-0a9f81e0f33455180',
+      securityGroupIngress: [
+        {
+          ipProtocol: 'tcp',
+          fromPort: 3389,
+          toPort: 3389,
+          cidrIp: '0.0.0.0/0',
+        },
+      ],
+      securityGroupEgress: [
+        {
+          ipProtocol: '-1',
+          fromPort: 0,
+          toPort: 0,
+          cidrIp: '0.0.0.0/0',
+        },
+      ],
+      tags: [
+        { key: 'Name', value: 'acme-prod-drift' },
+        { key: 'purpose', value: 'acme-prod' },
+      ],
+    });
+  }
+}
+
+const app = new cdk.App();
+new AcmeProdDriftStack(app, 'AcmeProdDriftStack');
+app.synth();

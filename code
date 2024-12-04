@@ -1,0 +1,29 @@
+import * as aws from "@pulumi/aws";
+
+// Variables
+const subnetId = "subnet-032ce0f510d034142";
+const securityGroupId = "sg-020a769fa8586a8ad";
+const privateIp1 = "192.168.121.130";
+const privateIp2 = "192.168.115.208";
+const description1 = "2b208918ece14f7b834913a4aefdfde4";
+const description2 = "b022bad1283240fa8c85b0381bad171a";
+
+// Network Interface 1
+const networkInterface1 = new aws.ec2.NetworkInterface("networkInterface1", {
+    subnetId: subnetId,
+    privateIps: [privateIp1],
+    securityGroups: [securityGroupId],
+    description: description1,
+    sourceDestCheck: true,
+    tags: {},
+});
+
+// Network Interface 2
+const networkInterface2 = new aws.ec2.NetworkInterface("networkInterface2", {
+    subnetId: subnetId,
+    privateIps: [privateIp2],
+    securityGroups: [securityGroupId],
+    description: description2,
+    sourceDestCheck: true,
+    tags: {},
+});

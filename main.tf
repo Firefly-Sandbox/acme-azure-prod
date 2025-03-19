@@ -150,9 +150,9 @@ resource "azurerm_network_security_group" "acme-prod-compute-nsg-01e" {
   name                = "acme-prod-compute-nsg"
   resource_group_name = "acme-azure-prod"
   security_rule {
-    access                     = "Allow"
+    access                     = "Deny"
     destination_address_prefix = "*"
-    destination_port_range     = "22"
+    destination_port_range     = "3389"
     direction                  = "Inbound"
     name                       = "SSH"
     priority                   = 300
